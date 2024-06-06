@@ -1,0 +1,8 @@
+<div class="mainContent">
+    <span *ngIf="city" class="errorMessage">
+        We are sorry, but we have currently issues to show informations about <strong>{{ city }}.</strong>
+        We are working on it. Please try again later or choose another city.
+    </span>
+
+    <button mat-raised-button color="warn" class="closeButton" (click)="close()">Close</button>
+</div>

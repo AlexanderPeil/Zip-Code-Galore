@@ -14,6 +14,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { DialogErrorComponent } from './components/dialog-error/dialog-error.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -21,7 +23,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     AppComponent,
     HomeComponent,
     HeaderComponent,
-    CityDetailComponent
+    CityDetailComponent,
+    DialogErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatExpansionModule,
     MatIconModule,
     MatButtonModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

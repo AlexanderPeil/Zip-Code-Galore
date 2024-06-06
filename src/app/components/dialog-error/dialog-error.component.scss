@@ -1,13 +1,12 @@
+
 @import '../../shared/variables.scss';
 
 .mainContent {
     @include d_flex_column;
-}
-
-.infotextTop {
     padding: 20px;
 }
 
-.errorMessage {
-    padding: 20px;
+.closeButton {
+    width: 80px;
+    margin-left: auto;
 }

@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { CityDataService } from 'src/app/shared/services/city-data.service';
-import { City, RawCity } from 'src/app/shared/types/city-data';
+import { City, RawCity, RawPlace } from 'src/app/shared/types/city-data';
+import { cityConfig } from 'src/app/shared/types/zip-codes';
+import { DialogErrorComponent } from '../dialog-error/dialog-error.component';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +14,14 @@ import { City, RawCity } from 'src/app/shared/types/city-data';
 export class HomeComponent {
   cityForm: FormGroup;
   cityData: City | null = null;
-  errorMessage: string | null = null;
+  errorMessage: boolean = false;
+  errorCity: string | null = null;
 
 
-  constructor(private fb: FormBuilder, private cityDataService: CityDataService) {
+  constructor(
+    private fb: FormBuilder,
+    private cityDataService: CityDataService,
+    private dialog: MatDialog) {
     this.cityForm = this.fb.group({
       city: ['', Validators.required]
     });
@@ -24,52 +31,81 @@ export class HomeComponent {
   onSubmit() {
     if (this.cityForm.valid) {
       const selectedCity = this.cityForm.get('city')?.value;
-      this.getCityData(selectedCity);
+      const zipCode = cityConfig[selectedCity.toLowerCase()];
+      if (zipCode) {
+        this.getCityData(selectedCity, zipCode);
+      } else {
+        this.displayErrorMessage(this.capitalizeFirstLetter(selectedCity));
+        this.cityData = null;
+      }
     }
   }
 
-
-  getCityData(city: string) {
-    let url = '';
-    switch (city) {
-      case 'berlin':
-        url = 'https://api.zippopotam.us/de/be/berlin';
-        break;
-      case 'london':
-        url = 'https://api.zippopotam.us/gb/eng/london';
-        break;
-      default:
-        this.errorMessage = `No data available for ${city}`;
-        this.cityData = null;
-        return;
-    }
-
+  getCityData(city: string, zipCode: string) {
+    const countryCode = this.getCountryCode(city);
+    const url = `https://api.zippopotam.us/${countryCode}/${zipCode}`;
     this.cityDataService.getCityData(url).subscribe(
       data => {
         this.cityData = this.transformCityData(data);
-        this.errorMessage = null;
+        this.errorMessage = false;
+        this.errorCity = null;
       },
       error => {
-        this.errorMessage = 'Error fetching city data';
+        console.error('Error fetching city data', error);
+        this.displayErrorMessage(this.capitalizeFirstLetter(city));
         this.cityData = null;
       }
     );
   }
 
+
+  getCountryCode(city: string): string {
+    switch (city.toLowerCase()) {
+      case 'berlin':
+        return 'de';
+      case 'london':
+        return 'gb';
+      case 'paris':
+        return 'fr';
+      case 'madrid':
+        return 'es';
+      case 'rome':
+        return 'it';
+      case 'cairo':
+        return 'eg';
+      case 'new-delhi':
+        return 'in';
+      default:
+        return '';
+    }
+  }
+
+
   transformCityData(data: RawCity): City {
     return {
       countryAbb: data['country abbreviation'],
-      places: data.places.map((place: any) => ({
+      postCode: data['post code'],
+      places: data.places.map((place: RawPlace) => ({
         placeName: place['place name'],
         longitude: place.longitude,
         latitude: place.latitude,
-        postCode: place['post code']
+        state: place.state,
+        stateAbb: place['state abbreviation']
       })),
-      country: data.country,
-      placeName: data['place name'],
-      state: data.state,
-      stateAbb: data['state abbreviation']
+      country: data.country
     };
+  }
+
+
+  displayErrorMessage(city: string) {
+    this.dialog.open(DialogErrorComponent, {
+      data: { city }
+    });
+  }
+
+
+  capitalizeFirstLetter(city: string): string {
+    return city.charAt(0).toUpperCase() + city.slice(1);
   }
 
 }

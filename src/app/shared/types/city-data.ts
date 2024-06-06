@@ -1,32 +1,29 @@
-export interface City {
-    countryAbb: string;
-    places: Place[];
-    country: string;
-    placeName: string;
-    state: string;
-    stateAbb: string;
+export interface Place {
+  placeName: string;
+  longitude: string;
+  latitude: string;
+  state: string;
+  stateAbb: string;
 }
 
-export interface Place {
-    placeName: string;
-    longitude: string;
-    latitude: string;
-    postCode: string;
+export interface City {
+  countryAbb: string;
+  postCode: string;
+  places: Place[];
+  country: string;
 }
 
 export interface RawPlace {
-    'place name': string;
-    longitude: string;
-    latitude: string;
-    'post code': string;
-  }
-  
-  export interface RawCity {
-    'country abbreviation': string;
-    places: RawPlace[];
-    country: string;
-    'place name': string;
-    state: string;
-    'state abbreviation': string;
-  }
-  
+  'place name': string;
+  longitude: string;
+  latitude: string;
+  state: string;
+  'state abbreviation': string;
+}
+
+export interface RawCity {
+  'country abbreviation': string;
+  'post code': string;
+  places: RawPlace[];
+  country: string;
+}

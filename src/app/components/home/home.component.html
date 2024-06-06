@@ -1,21 +1,27 @@
 <app-header></app-header>
 
 <div class="mainContent">
-  <span class="infotextTop">Please choose a city in the selection and you will get some informations about it.</span>
+  <span class="infotextTop">Please choose a city in the selection to get some informations.</span>
 
+  <!-- Angular formGroup with select options (Material mat-options) -->
   <form [formGroup]="cityForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Choose a city</mat-label>
       <mat-select formControlName="city">
         <mat-option value="" disabled>Select a city</mat-option>
         <mat-option value="berlin">Berlin</mat-option>
+        <mat-option value="paris">Paris</mat-option>
+        <mat-option value="madrid">Madrid</mat-option>
+        <mat-option value="rome">Rome</mat-option>
         <mat-option value="london">London</mat-option>
+        <mat-option value="cairo">Cairo</mat-option>
+        <mat-option value="new-delhi">New Delhi</mat-option>
       </mat-select>
     </mat-form-field>
     <button mat-raised-button type="submit" color="primary" [disabled]="!cityForm.valid">Submit</button>
   </form>
 
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-
+  <!-- App Detail App to show details about selected city. -->
   <app-city-detail *ngIf="cityData" [cityData]="cityData"></app-city-detail>
+
 </div>

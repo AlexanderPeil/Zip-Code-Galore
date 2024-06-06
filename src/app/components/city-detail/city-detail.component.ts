@@ -10,5 +10,4 @@ export class CityDetailComponent {
   @Input() cityData!: City;
   panelOpenState: boolean = false;
 
-
 }
