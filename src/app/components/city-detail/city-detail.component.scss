@@ -1,0 +1,9 @@
+@import '../../shared/variables.scss';
+
+.mainContent {
+    @include d_flex_column;
+}
+
+.cityContent {
+    margin-bottom: 10px;
+}

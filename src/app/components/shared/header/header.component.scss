@@ -1,0 +1,6 @@
+@import "../../../shared/variables.scss";
+
+.headerContent {
+    @include d_flex;
+    background-color: #d7e3ff;
+}

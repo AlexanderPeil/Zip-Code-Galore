@@ -1,0 +1,9 @@
+@import '../../shared/variables.scss';
+
+.mainContent {
+    @include d_flex_column;
+}
+
+.infotextTop {
+    padding: 20px;
+}

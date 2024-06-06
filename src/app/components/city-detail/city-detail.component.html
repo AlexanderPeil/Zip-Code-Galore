@@ -1,0 +1,32 @@
+<div class="mainContent">
+
+    <div *ngIf="cityData">
+        <h2><u>City Data for {{ cityData.placeName }}</u></h2>
+        <p><i>Country:</i> {{ cityData.country }}</p>
+        <p><i>State:</i> {{ cityData.state }}</p>
+        <p><i>State Abbreviation:</i> {{ cityData.stateAbb }}</p>
+        <p><i>Country Abbreviation:</i> {{ cityData.countryAbb }}</p>
+
+        <!-- Angular Material Expansion Panel to display more infos about the current city. -->
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Show more
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <h4>Places:</h4>
+                <ul>
+                    <li *ngFor="let place of cityData.places" class="cityContent">
+                        Place Name: {{ place.placeName }}<br>
+                        Post Code: {{ place.postCode }}<br>
+                        Latitude: {{ place.latitude }}<br>
+                        Longitude: {{ place.longitude }}
+                    </li>
+                </ul>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<app-header></app-header>
+
+<div class="mainContent">
+  <span class="infotextTop">Please choose a city in the selection and you will get some informations about it.</span>
+
+  <form [formGroup]="cityForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a city</mat-label>
+      <mat-select formControlName="city">
+        <mat-option value="" disabled>Select a city</mat-option>
+        <mat-option value="berlin">Berlin</mat-option>
+        <mat-option value="london">London</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button type="submit" color="primary" [disabled]="!cityForm.valid">Submit</button>
+  </form>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <app-city-detail *ngIf="cityData" [cityData]="cityData"></app-city-detail>
+</div>
