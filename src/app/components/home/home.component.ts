@@ -28,6 +28,12 @@ export class HomeComponent {
   }
 
 
+  /**
+   * Handles the form submission.
+   * Checks if the form is valid, retrieves the selected city,
+   * looks up its zip code, and fetches the city data if valid.
+   * Displays an error message if the city is not found.
+   */
   onSubmit() {
     if (this.cityForm.valid) {
       const selectedCity = this.cityForm.get('city')?.value;
@@ -41,6 +47,15 @@ export class HomeComponent {
     }
   }
 
+
+  /**
+ * Fetches data for the given city and zip code.
+ * Constructs the API URL based on the city and zip code, and performs an HTTP GET request.
+ * Transforms and stores the city data if the request is successful, or displays an error message if the request fails.
+ * 
+ * @param {string} city - The name of the city.
+ * @param {string} zipCode - The zip code of the city.
+ */
   getCityData(city: string, zipCode: string) {
     const countryCode = this.getCountryCode(city);
     const url = `https://api.zippopotam.us/${countryCode}/${zipCode}`;
@@ -59,6 +74,13 @@ export class HomeComponent {
   }
 
 
+  /**
+ * Retrieves the country code for the given city.
+ * Returns the corresponding country code based on the city name.
+ * 
+ * @param {string} city - The name of the city.
+ * @returns {string} The country code.
+ */
   getCountryCode(city: string): string {
     switch (city.toLowerCase()) {
       case 'berlin':
@@ -81,6 +103,12 @@ export class HomeComponent {
   }
 
 
+  /**
+   * Transforms the raw city data received from the API into a structured City object.
+   * 
+   * @param {RawCity} data - The raw data from the API.
+   * @returns {City} The transformed city data.
+   */
   transformCityData(data: RawCity): City {
     return {
       countryAbb: data['country abbreviation'],
@@ -97,6 +125,11 @@ export class HomeComponent {
   }
 
 
+  /**
+ * Displays an error message dialog indicating the city was not found.
+ * 
+ * @param {string} city - The name of the city.
+ */
   displayErrorMessage(city: string) {
     this.dialog.open(DialogErrorComponent, {
       data: { city }
@@ -104,6 +137,12 @@ export class HomeComponent {
   }
 
 
+  /**
+ * Capitalizes the first letter of the city name.
+ * 
+ * @param {string} city - The name of the city.
+ * @returns {string} The capitalized city name.
+ */
   capitalizeFirstLetter(city: string): string {
     return city.charAt(0).toUpperCase() + city.slice(1);
   }
